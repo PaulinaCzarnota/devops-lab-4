@@ -4,7 +4,7 @@ This repository contains my Lab 4 - Continuous Integration with Jenkins solution
 
 This lab focuses on setting up Jenkins to implement a Continuous Integration (CI) pipeline for automating software builds. The pipeline is designed to build Git from source every 10 minutes, simulating real-world CI/CD practices.
 
-# Key Features & Steps:
+# Key Features & Steps
 
 - **Setting up Jenkins** on a Virtual Machine (VM) using Vagrant.
 - **Installing Jenkins** and granting it root privileges for automation.
@@ -24,7 +24,8 @@ This lab focuses on setting up Jenkins to implement a Continuous Integration (CI
   ~/git-latest/bin/git --version  
   ```
   
-## **Technologies Used:**
+# Technologies Used
+
 - **Jenkins**
 - **Git**
 - **Linux (Debian-based VM)**

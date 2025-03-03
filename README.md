@@ -24,7 +24,7 @@ This lab focuses on setting up Jenkins to implement a Continuous Integration (CI
   ~/git-latest/bin/git --version  
   ```
   
-## Technologies Used
+# Technologies Used
 
 - **Jenkins**
 - **Git**

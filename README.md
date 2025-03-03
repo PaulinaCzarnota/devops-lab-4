@@ -24,7 +24,7 @@ This lab focuses on setting up Jenkins to implement a Continuous Integration (CI
   ~/git-latest/bin/git --version  
   ```
   
-# Technologies Used
+## Technologies Used
 
 - **Jenkins**
 - **Git**
@@ -33,4 +33,4 @@ This lab focuses on setting up Jenkins to implement a Continuous Integration (CI
 - **Vagrant**
 - **Makefile & Build Tools**
 
-This project demonstrates a fully automated CI pipeline using Jenkins**, essential for modern software development workflows.
+This project demonstrates a fully automated CI pipeline using Jenkins, essential for modern software development workflows.

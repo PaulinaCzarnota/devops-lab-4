@@ -1,0 +1,350 @@
+Started by user admin
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/Build_Git
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone the git repo)
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/Build_Git/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/git/git # timeout=10
+Fetching upstream changes from https://github.com/git/git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.5'
+ > git fetch --tags --force --progress -- https://github.com/git/git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 08bdfd453584e489d5a551aecbdcb77584e1b958 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 08bdfd453584e489d5a551aecbdcb77584e1b958 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master 08bdfd453584e489d5a551aecbdcb77584e1b958 # timeout=10
+Commit message: "Git 2.49-rc0"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Install Dependencies)
+[Pipeline] sh
++ sudo apt update
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:1 https://security.debian.org/debian-security bookworm-security InRelease
+Hit:2 https://deb.debian.org/debian bookworm InRelease
+Ign:3 https://pkg.jenkins.io/debian-stable binary/ InRelease
+Hit:4 https://deb.debian.org/debian bookworm-updates InRelease
+Hit:5 https://pkg.jenkins.io/debian-stable binary/ Release
+Hit:6 https://deb.debian.org/debian bookworm-backports InRelease
+Reading package lists...
+Building dependency tree...
+Reading state information...
+All packages are up to date.
++ sudo apt install -y build-essential libssl-dev libcurl4-openssl-dev libexpat1-dev gettext autoconf
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+build-essential is already the newest version (12.9).
+libssl-dev is already the newest version (3.0.15-1~deb12u1).
+libcurl4-openssl-dev is already the newest version (7.88.1-10+deb12u8).
+libexpat1-dev is already the newest version (2.5.0-1+deb12u1).
+gettext is already the newest version (0.21-12).
+autoconf is already the newest version (2.71-3).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Prepare the build)
+[Pipeline] sh
++ make configure
+make: 'configure' is up to date.
+[Pipeline] sh
++ ./configure --prefix=/home/vagrant/git-latest
+configure: Setting lib to 'lib' (the default)
+configure: Will try -pthread then -lpthread to enable POSIX Threads.
+configure: CHECKS for site configuration
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for size_t... yes
+checking for working alloca.h... yes
+checking for alloca... yes
+configure: CHECKS for programs
+checking whether the compiler supports GNU C... (cached) yes
+checking whether gcc accepts -g... (cached) yes
+checking for gcc option to enable C11 features... (cached) none needed
+checking for inline... inline
+checking if linker supports -R... yes
+checking for gar... no
+checking for ar... ar
+checking for gtar... no
+checking for tar... tar
+checking for gnudiff... no
+checking for gdiff... no
+checking for diff... diff
+checking for asciidoc... no
+configure: CHECKS for libraries
+checking for SHA1_Init in -lcrypto... yes
+checking for curl_global_init in -lcurl... yes
+checking for curl-config... curl-config
+configure: Setting CURL_LDFLAGS to '-lcurl'
+checking for XML_ParserCreate in -lexpat... yes
+checking for iconv in -lc... yes
+checking for deflateBound in -lz... yes
+checking for socket in -lc... yes
+checking for inet_ntop... yes
+checking for inet_pton... yes
+checking for hstrerror... yes
+checking for basename in -lc... yes
+checking if libc contains libintl... yes
+checking for libintl.h... yes
+configure: CHECKS for header files
+checking for sys/select.h... yes
+checking for poll.h... yes
+checking for sys/poll.h... yes
+checking for inttypes.h... (cached) yes
+checking for old iconv()... no
+checking whether iconv omits bom for utf-16 and utf-32... no
+configure: CHECKS for typedefs, structures, and compiler characteristics
+checking for socklen_t... yes
+checking for struct itimerval... yes
+checking for struct stat.st_mtimespec.tv_nsec... no
+checking for struct stat.st_mtim.tv_nsec... yes
+checking for struct dirent.d_type... yes
+checking for struct passwd.pw_gecos... yes
+checking for struct sockaddr_storage... yes
+checking for struct addrinfo... yes
+checking for getaddrinfo... yes
+checking for library containing getaddrinfo... none required
+checking how to run the C preprocessor... gcc -E
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking whether the platform regex supports REG_STARTEND... yes
+checking whether system succeeds to read fopen'ed directory... yes
+checking whether snprintf() and/or vsnprintf() return bogus value... no
+checking whether the platform uses typical file type bits... yes
+configure: CHECKS for library functions
+checking for libgen.h... yes
+checking for paths.h... yes
+checking for libcharset.h... no
+checking for strings.h... (cached) yes
+checking for locale_charset in -liconv... no
+checking for locale_charset in -lcharset... no
+checking for clock_gettime... yes
+checking for library containing clock_gettime... none required
+checking for CLOCK_MONOTONIC... yes
+checking for sync_file_range... yes
+checking for library containing sync_file_range... none required
+checking for setitimer... yes
+checking for library containing setitimer... none required
+checking for strcasestr... yes
+checking for library containing strcasestr... none required
+checking for memmem... yes
+checking for library containing memmem... none required
+checking for strlcpy... no
+checking for uintmax_t... yes
+checking for strtoumax... yes
+checking for library containing strtoumax... none required
+checking for setenv... yes
+checking for library containing setenv... none required
+checking for unsetenv... yes
+checking for library containing unsetenv... none required
+checking for mkdtemp... yes
+checking for library containing mkdtemp... none required
+checking for initgroups... yes
+checking for library containing initgroups... none required
+checking for getdelim... yes
+checking for library containing getdelim... none required
+checking for BSD sysctl... no
+checking for POSIX Threads with ''... yes
+configure: creating ./config.status
+config.status: creating config.mak.autogen
+config.status: executing config.mak.autogen commands
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Perform the build)
+[Pipeline] sh
++ make
+    SUBDIR git-gui
+    SUBDIR gitk-git
+    SUBDIR templates
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Install the finished programme)
+[Pipeline] sh
++ sudo make install
+    SUBDIR git-gui
+    SUBDIR gitk-git
+    SUBDIR templates
+install -d -m 755 '/home/vagrant/git-latest/share/gitweb'
+install -m 755 gitweb/gitweb.cgi '/home/vagrant/git-latest/share/gitweb'
+install -d -m 755 '/home/vagrant/git-latest/share/gitweb/static'
+install -m 644 gitweb/static/gitweb.js gitweb/static/gitweb.css gitweb/static/git-logo.png gitweb/static/git-favicon.png \
+	'/home/vagrant/git-latest/share/gitweb/static'
+install -d -m 755 '/home/vagrant/git-latest/bin'
+install -d -m 755 '/home/vagrant/git-latest/libexec/git-core'
+install   git-daemon git-http-backend git-imap-send git-sh-i18n--envsubst git-shell git-http-fetch git-http-push git-remote-http git-remote-https git-remote-ftp git-remote-ftps '/home/vagrant/git-latest/libexec/git-core'
+install git-difftool--helper git-filter-branch git-merge-octopus git-merge-one-file git-merge-resolve git-mergetool git-quiltimport git-request-pull git-submodule git-web--browse git-archimport git-cvsexportcommit git-cvsimport git-cvsserver git-send-email git-svn git-p4 git-instaweb '/home/vagrant/git-latest/libexec/git-core'
+install -m 644 git-mergetool--lib git-sh-i18n git-sh-setup '/home/vagrant/git-latest/libexec/git-core'
+install  git scalar git-receive-pack git-shell git-upload-archive git-upload-pack '/home/vagrant/git-latest/bin'
+install git-cvsserver '/home/vagrant/git-latest/bin'
+make -C templates DESTDIR='' install
+make[1]: Entering directory '/var/lib/jenkins/workspace/Build_Git/templates'
+install -d -m 755 '/home/vagrant/git-latest/share/git-core/templates'
+(cd blt && tar cf - .) | \
+(cd '/home/vagrant/git-latest/share/git-core/templates' && umask 022 && tar xof -)
+make[1]: Leaving directory '/var/lib/jenkins/workspace/Build_Git/templates'
+install -d -m 755 '/home/vagrant/git-latest/libexec/git-core/mergetools'
+install -m 644 mergetools/* '/home/vagrant/git-latest/libexec/git-core/mergetools'
+install -d -m 755 '/home/vagrant/git-latest/share/locale'
+(cd po/build/locale && tar cf - .) | \
+(cd '/home/vagrant/git-latest/share/locale' && umask 022 && tar xof -)
+install -d -m 755 '/home/vagrant/git-latest/share/perl5'
+(cd perl/build/lib && tar cf - .) | \
+(cd '/home/vagrant/git-latest/share/perl5' && umask 022 && tar xof -)
+make -C gitk-git install
+make[1]: Entering directory '/var/lib/jenkins/workspace/Build_Git/gitk-git'
+install -d -m 755 '/home/vagrant/git-latest/bin'
+install -m 755 gitk-wish '/home/vagrant/git-latest/bin'/gitk
+install -d -m 755 '/home/vagrant/git-latest/share/gitk/lib/msgs'
+install -m 644 po/bg.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/ca.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/de.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/es.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/fr.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/hu.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/it.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/ja.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/pt_br.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/pt_pt.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/ru.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/sv.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/vi.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' &&  install -m 644 po/zh_cn.msg '/home/vagrant/git-latest/share/gitk/lib/msgs' && true
+make[1]: Leaving directory '/var/lib/jenkins/workspace/Build_Git/gitk-git'
+make -C git-gui gitexecdir='/home/vagrant/git-latest/libexec/git-core' install
+make[1]: Entering directory '/var/lib/jenkins/workspace/Build_Git/git-gui'
+  DEST /home/vagrant/git-latest/libexec/git-core
+    INSTALL 755 git-gui
+    INSTALL 755 git-gui--askpass
+    LINK        git-citool -> git-gui
+  DEST /home/vagrant/git-latest/share/git-gui/lib
+    INSTALL 644 tclIndex
+    INSTALL 644 about.tcl
+    INSTALL 644 blame.tcl
+    INSTALL 644 branch.tcl
+    INSTALL 644 branch_checkout.tcl
+    INSTALL 644 branch_create.tcl
+    INSTALL 644 branch_delete.tcl
+    INSTALL 644 branch_rename.tcl
+    INSTALL 644 browser.tcl
+    INSTALL 644 checkout_op.tcl
+    INSTALL 644 choose_font.tcl
+    INSTALL 644 choose_repository.tcl
+    INSTALL 644 choose_rev.tcl
+    INSTALL 644 chord.tcl
+    INSTALL 644 class.tcl
+    INSTALL 644 commit.tcl
+    INSTALL 644 console.tcl
+    INSTALL 644 database.tcl
+    INSTALL 644 date.tcl
+    INSTALL 644 diff.tcl
+    INSTALL 644 encoding.tcl
+    INSTALL 644 error.tcl
+    INSTALL 644 index.tcl
+    INSTALL 644 line.tcl
+    INSTALL 644 logo.tcl
+    INSTALL 644 merge.tcl
+    INSTALL 644 mergetool.tcl
+    INSTALL 644 option.tcl
+    INSTALL 644 remote.tcl
+    INSTALL 644 remote_add.tcl
+    INSTALL 644 remote_branch_delete.tcl
+    INSTALL 644 search.tcl
+    INSTALL 644 shortcut.tcl
+    INSTALL 644 spellcheck.tcl
+    INSTALL 644 sshkey.tcl
+    INSTALL 644 status_bar.tcl
+    INSTALL 644 themed.tcl
+    INSTALL 644 tools.tcl
+    INSTALL 644 tools_dlg.tcl
+    INSTALL 644 transport.tcl
+    INSTALL 644 win32.tcl
+    INSTALL 644 git-gui.ico
+    INSTALL 644 win32_shortcut.js
+  DEST /home/vagrant/git-latest/share/git-gui/lib/msgs
+    INSTALL 644 bg.msg
+    INSTALL 644 de.msg
+    INSTALL 644 el.msg
+    INSTALL 644 fr.msg
+    INSTALL 644 hu.msg
+    INSTALL 644 it.msg
+    INSTALL 644 ja.msg
+    INSTALL 644 nb.msg
+    INSTALL 644 pt_br.msg
+    INSTALL 644 pt_pt.msg
+    INSTALL 644 ru.msg
+    INSTALL 644 sv.msg
+    INSTALL 644 vi.msg
+    INSTALL 644 zh_cn.msg
+make[1]: Leaving directory '/var/lib/jenkins/workspace/Build_Git/git-gui'
+bindir=$(cd '/home/vagrant/git-latest/bin' && pwd) && \
+execdir=$(cd '/home/vagrant/git-latest/libexec/git-core' && pwd) && \
+destdir_from_execdir_SQ=$(echo 'libexec/git-core' | sed -e 's|[^/][^/]*|..|g') && \
+{ test "$bindir/" = "$execdir/" || \
+  for p in git scalar git-shell git-cvsserver; do \
+	rm -f "$execdir/$p" && \
+	test -n "" && \
+	ln -s "$destdir_from_execdir_SQ/bin/$p" "$execdir/$p" || \
+	{ test -z "" && \
+	  ln "$bindir/$p" "$execdir/$p" 2>/dev/null || \
+	  cp "$bindir/$p" "$execdir/$p" || exit; } \
+  done; \
+} && \
+for p in git-receive-pack git-upload-archive git-upload-pack; do \
+	rm -f "$bindir/$p" && \
+	test -n "" && \
+	ln -s "git" "$bindir/$p" || \
+	{ test -z "" && \
+	  ln "$bindir/git" "$bindir/$p" 2>/dev/null || \
+	  ln -s "git" "$bindir/$p" 2>/dev/null || \
+	  cp "$bindir/git" "$bindir/$p" || exit; }; \
+done && \
+for p in git-add git-am git-annotate git-apply git-archive git-backfill git-bisect git-blame git-branch git-bugreport git-bundle git-cat-file git-check-attr git-check-ignore git-check-mailmap git-check-ref-format git-checkout--worker git-checkout-index git-checkout git-clean git-clone git-column git-commit-graph git-commit-tree git-commit git-config git-count-objects git-credential-cache--daemon git-credential-cache git-credential-store git-credential git-describe git-diagnose git-diff-files git-diff-index git-diff-tree git-diff git-difftool git-fast-export git-fast-import git-fetch-pack git-fetch git-fmt-merge-msg git-for-each-ref git-for-each-repo git-fsck git-fsmonitor--daemon git-gc git-get-tar-commit-id git-grep git-hash-object git-help git-hook git-index-pack git-init-db git-interpret-trailers git-log git-ls-files git-ls-remote git-ls-tree git-mailinfo git-mailsplit git-merge-base git-merge-file git-merge-index git-merge-ours git-merge-recursive git-merge-tree git-merge git-mktag git-mktree git-multi-pack-index git-mv git-name-rev git-notes git-pack-objects git-pack-redundant git-pack-refs git-patch-id git-prune-packed git-prune git-pull git-push git-range-diff git-read-tree git-rebase git-receive-pack git-reflog git-refs git-remote-ext git-remote-fd git-remote git-repack git-replace git-replay git-rerere git-reset git-rev-list git-rev-parse git-revert git-rm git-send-pack git-shortlog git-show-branch git-show-index git-show-ref git-sparse-checkout git-stash git-stripspace git-submodule--helper git-symbolic-ref git-tag git-unpack-file git-unpack-objects git-update-index git-update-ref git-update-server-info git-upload-archive git-upload-pack git-var git-verify-commit git-verify-pack git-verify-tag git-worktree git-write-tree git-cherry git-cherry-pick git-format-patch git-fsck-objects git-init git-maintenance git-merge-subtree git-restore git-show git-stage git-status git-switch git-version git-whatchanged; do \
+	rm -f "$execdir/$p" && \
+	if test -z ""; \
+	then \
+		test -n "" && \
+		ln -s "$destdir_from_execdir_SQ/bin/git" "$execdir/$p" || \
+		{ test -z "" && \
+		  ln "$execdir/git" "$execdir/$p" 2>/dev/null || \
+		  ln -s "git" "$execdir/$p" 2>/dev/null || \
+		  cp "$execdir/git" "$execdir/$p" || exit; }; \
+	fi \
+done && \
+remote_curl_aliases="git-remote-https git-remote-ftp git-remote-ftps" && \
+for p in $remote_curl_aliases; do \
+	rm -f "$execdir/$p" && \
+	test -n "" && \
+	ln -s "git-remote-http" "$execdir/$p" || \
+	{ test -z "" && \
+	  ln "$execdir/git-remote-http" "$execdir/$p" 2>/dev/null || \
+	  ln -s "git-remote-http" "$execdir/$p" 2>/dev/null || \
+	  cp "$execdir/git-remote-http" "$execdir/$p" || exit; } \
+done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
